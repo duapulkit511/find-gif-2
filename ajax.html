@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+        <style>
+                .size {
+                    width: 100px;
+                    height: 100px;
+                }
+            </style>
+        
+    <script>
+        function ajax()
+        {
+            var search=document.querySelector("#searchtext").value;
+            var url="http://api.giphy.com/v1/gifs/search?q=" + search + "&api_key=iH2BJfGH8eCSnMfzZz2ZiMNqIXCSpmFX&limit=15";
+            fetch(url).then(response=>{console.log("response is",response );
+            response.json().then(data=>{console.log("data is ",data);
+            print(data);}).catch(err=>console.log("invalid json",err)).catch(err=>console.log("error during ajax call",err))})
+        }
+        function print(result)
+        {var div=document.querySelector("#images");
+        div.innerHTML="";
+        for(let image of result.data)
+        {let url=image.images.original.url;
+        createimage(url);}}
+        function createimage(url)
+        {var img=document.createElement("img");
+        img.src=url;
+        img.className="size";
+        var div=document.querySelector("#images");
+        div.appendChild(img);}
+    </script>
+</head>
+<body>
+    <h1>gif search engine</h1>
+    <input id="searchtext" type="text" placeholder="Type here to search">
+    <button onclick="ajax()">SEARCH</button>
+    <div id="images"></div>
+</body>
+</html>
